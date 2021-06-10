@@ -42,6 +42,5 @@ class Solution:
             tmp = curr.next
             curr.next = prev
             prev = curr
-            #tmp.next = curr
             curr = tmp
         return prev

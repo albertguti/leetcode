@@ -37,7 +37,7 @@ Constraints:
     1 <= m, n <= 300
     grid[i][j] is '0' or '1'.
 """
-from dataclasses import List
+from types import List
 
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
@@ -49,12 +49,7 @@ class Solution:
             for j in range(m):
                 if grid[i][j] == "1":
                     cnt += 1
-                    grid[i][j] = cnt
-                    self.visitAdjacent(i,j+1,grid,cnt)
-                    self.visitAdjacent(i,j-1,grid,cnt)
-                    self.visitAdjacent(i-1,j,grid,cnt)
-                    self.visitAdjacent(i+1,j,grid,cnt)
-        
+                    self.visitAdjacent(i,j,grid,cnt)        
         return cnt
         
     def visitAdjacent(self, i, j, grid, cnt):

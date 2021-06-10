@@ -41,13 +41,27 @@ Constraints:
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
         visited = {}
-        left = 0
-        max_len = 0
-        
-        for i, char in enumerate(s):
-            if char in visited:
-                left = max(visited[char]+1, left)
-            visited[char] = i
-            max_len = max(max_len, i-left+1)
-        
-        return max_len
+        left = -1
+        ans = 0
+        for right, char in enumerate(s):
+            left = max(visited.get(char, left), left) # No moure l'esquerra cap enrere
+            ans = max(ans, right-left)
+            visited[char] = right
+        return ans
+
+test_cases = [
+    ["abba", 2],
+    ["nnnnnn", 1],
+    ["abcde", 5],
+    ["abababc", 3]
+]
+
+obj = Solution()
+for string, expected in test_cases:
+    result = obj.lengthOfLongestSubstring(string)
+    try:
+        assert result == expected
+    except AssertionError:
+        print(f"Got {result}, expected {expected}")
+
+print("Done")

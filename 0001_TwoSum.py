@@ -36,16 +36,13 @@ Constraints:
     Only one valid answer exists.
 """
 
-from dataclasses import List
-
+from typing import List
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
-        h = {}
+        visited = {}
         for i, num in enumerate(nums):
-            n = target - num
-            if n not in h:
-                h[num] = i
-            else:
-                return [h[n], i]
-        
+            candidate = target - num
+            if candidate in visited:
+                return [i,visited[candidate]]
+            visited[num] = i
         return []

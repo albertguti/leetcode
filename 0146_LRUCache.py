@@ -47,19 +47,19 @@ Constraints:
 """
 
 from collections import OrderedDict
-
 class LRUCache:
 
     def __init__(self, capacity: int):
-        self.capacity = capacity
         self.cache = OrderedDict()
-        
+        self.capacity = capacity
+
     def get(self, key: int) -> int:
-        if key not in self.cache:
+        if key in self.cache:
+            self.cache.move_to_end(key)
+            return self.cache[key]
+        else:
             return -1
-        self.cache.move_to_end(key)
-        return self.cache[key]
-        
+
     def put(self, key: int, value: int) -> None:
         self.cache[key] = value
         self.cache.move_to_end(key)
