@@ -28,7 +28,21 @@ Constraints:
 """
 from typing import List
 
+
 class Solution:
+    def longestConsecutive(self, nums: List[int]) -> int:
+        nums = set(nums)
+        longest = 0
+        for num in nums:
+            if num-1 not in nums:
+                following =  num+1
+                while following in nums:
+                    following += 1
+                longest = max(longest, following-num)
+        return longest
+
+
+class SolutionComplicated:
     def longestConsecutive(self, nums: List[int]) -> int:
         nums_set = set(nums)
         longest = 0

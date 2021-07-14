@@ -37,47 +37,44 @@ Constraints:
     All the words in wordList are unique.
 """
 
-from collections import defaultdict, deque
 from typing import List
-
-from collections import defaultdict, deque
-from typing import List
+from collections import defaultdict,deque
 
 class Solution:
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
         if beginWord not in wordList:
-            wordList = wordList + [beginWord]
-        graph = self.constructGraph(wordList)
-        steps = self.stepsToWord(graph, beginWord, endWord, wordList)
-        return steps
+            wordList.append(beginWord)
+        graph = self.buildGraph(wordList)
+        ans = self.bfsGetDistance(graph, beginWord, endWord)    
+        return ans 
         
-    def constructGraph(self, wordList):
-        graph = defaultdict(list)
-        for i in range(len(wordList)):
-            current = wordList[i]
-            for j in range(len(wordList[i])):
-                word = current[:j] + "_" + current[j+1:]
-                graph[word].append(current)
-        return graph
-
-    def stepsToWord(self, graph, beginWord: str, endWord: str, wordList: List[str]):
+    def bfsGetDistance(self, graph, beginWord, endWord):
         visited = set()
-        queue = deque([(beginWord, 1)])
-        
+        queue = deque([(beginWord,1)])
         while queue:
-            # breakpoint()
-            word, steps = queue.pop()
+            word, steps = queue.popleft()
             if word not in visited:
                 visited.add(word)
                 if word == endWord:
                     return steps
+                
                 for i in range(len(word)):
-                    current = word[:i] + "_" + word[i+1:]
-                    neighbours = graph.get(current, [])
+                    key = word[:i]+"-"+word[i+1:]
+                    neighbours = graph.get(key, [])
                     for neighbour in neighbours:
                         if neighbour not in visited:
                             queue.append((neighbour, steps+1))
         return 0
+    
+    
+    def buildGraph(self,wordList: List[str]):
+        graph = defaultdict(list)
+        
+        for word in wordList:
+            for i,char in enumerate(word):
+                key = word[:i]+"-"+word[i+1:]
+                graph[key].append(word)
+        return graph
     
 beginWord = "hit"
 endWord = "cog"

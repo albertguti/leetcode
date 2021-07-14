@@ -40,7 +40,24 @@ class Node:
         self.children = children
 
 
+
+from collections import deque
+
 class Solution:
+    
+    def postorder(self, root: 'Node') -> List[int]:
+        values = deque()
+        queue = [root]
+        
+        while queue:
+            current = queue.pop()
+            if current:
+                values.appendleft(current.val)
+                queue.extend(current.children)
+        return values
+
+
+class SolutionOn: # O(n) time solution
     
     def postorder(self, root: 'Node') -> List[int]:
         values = []
